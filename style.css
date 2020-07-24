@@ -1,9 +1,9 @@
 /*
-Theme Name: Maria Lebredo
+Theme Name: blankCanvas
 Author: Lattedev
 Author URI: https://www.lattedev.com
-Description: The Maria Lebredo official theme, by lattedev.com
-Version: 1.0
+Description: just an empty wordpress theme project, by lattedev.com
+Version: 0.0
 */
 
 
@@ -194,21 +194,21 @@ body{display:grid}
 img{object-fit:cover;width:100%}
 a{text-decoration:none}
 ul,ol{list-style:none}
-main {
+.main {
   /* display: flex; */
   /* flex-direction: column; */
 }
-main p,
-main a,
-main h1,
-main h2,
-main h3,
-main h4,
-main h5,
-main h6,
-main ul,
-main li{margin:unset;padding:unset}
-main ul,main ol{list-style:unset}
+.main p,
+.main a,
+.main h1,
+.main h2,
+.main h3,
+.main h4,
+.main h5,
+.main h6,
+.main ul,
+.main li{margin:unset;padding:unset}
+.main ul,.main ol{list-style:unset}
 
 /* ---------------------------------------------------------------------------
 ------------------------------------------------------------------------------
