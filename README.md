@@ -1,2 +1,2 @@
 # blankCanvas
-Empty Wordpress Theme
+Empty WordPress Theme
