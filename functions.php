@@ -1,9 +1,11 @@
 <?php
 
-require_once 'customPosts.php';
+require_once 'inc/custom_posts.php';
+require_once 'inc/form_handler.php';
 
 function lattte_setup(){
   wp_enqueue_style('style', get_stylesheet_uri(), NULL, microtime(), 'all');
+	wp_enqueue_script('modules', get_theme_file_uri('/js/modules.js'), NULL, microtime(), true);
   wp_enqueue_script('main', get_theme_file_uri('/js/custom.js'), NULL, microtime(), true);
 }
 add_action('wp_enqueue_scripts', 'lattte_setup');
