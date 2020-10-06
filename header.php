@@ -6,6 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   
   <?php wp_head(); ?>
+  <style>
+    :root{
+      --primary_color:<?php echo get_option( 'primary_color', '' ); ?>;
+      --secondary_color:<?php echo get_option( 'secondary_color', '' ); ?>;
+    }
+  </style>
 </head>
 <body <?php body_class(); ?>>
 
