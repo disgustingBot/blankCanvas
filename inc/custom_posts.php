@@ -9,7 +9,7 @@ function lt_new_custom_post($name, $icon = '', $taxonomies = array() ){
 	}
 	$name_M     = ucfirst($name);
 	$name_M_pl  = ucfirst($name_pl);
-	
+
     /* Añado las etiquetas que aparecerán en el escritorio de WordPress */
 	$labels = array(
 		'name'               => _x( $name_M_pl, 'post type general name', 'lt-domain' ),
@@ -25,7 +25,7 @@ function lt_new_custom_post($name, $icon = '', $taxonomies = array() ){
 		'not_found'          => __( 'No hay ' . $name_pl, 'lt-domain' ),
 		'not_found_in_trash' => __( 'Ningun ' . $name . ' en la papelera.', 'lt-domain' )
 	);
-	
+
     /* Configuro el comportamiento y funcionalidades del nuevo custom post type */
 	$args = array(
 		'labels'             => $labels,
@@ -94,11 +94,27 @@ function lt_add_meta_fields_to_taxonomy( $taxonomy_slug , $meta_fields = array()
 	add_action( $taxonomy_slug . '_edit_form_fields', function ($term) use( $taxonomy_slug, $meta_fields ) {
 		//getting term ID
 		$term_id = $term->term_id;
-		foreach ( $meta_fields as $name => $labels ) { ?>
+		$checked = '';
+		foreach ( $meta_fields as $name => $labels ) {
+			if(!isset($labels['type'])){
+				$labels['type']='text';
+			}
+			if ($labels['type'] == 'checkbox' AND get_term_meta($term_id, $name, true)){
+				$checked = ' checked';
+			}
+			?>
 			<tr class="form-field">
 				<th scope="row" valign="top"><label for="<?php echo $name ?>"><?php echo $labels['label']; ?></label></th>
 				<td>
-				<input type="text" name="<?php echo $name ?>" id="<?php echo $name ?>" value="<?php echo get_term_meta($term_id, $name, true); ?>">
+					<input
+						type="<?php echo $labels['type']; ?>"
+						name="<?php echo $name ?>"
+						id="<?php echo $name ?>"
+						<?php if($labels['type'] != 'checkbox') {
+							echo 'value="' . get_term_meta($term_id, $name, true) . '"';
+						} else {
+							echo $checked;
+						} ?>>
 					<p class="description"><?php echo $labels['description']; ?></p>
 				</td>
 			</tr>
@@ -111,7 +127,7 @@ function lt_add_meta_fields_to_taxonomy( $taxonomy_slug , $meta_fields = array()
 		foreach ( $meta_fields as $name => $labels ) { ?>
 			<div class="form-field">
 				<label for="<?php echo $name ?>"><?php echo _e($labels['label'], 'lt'); ?></label>
-				<input type="text" name="<?php echo $name ?>" id="<?php echo $name ?>">
+				<input type="<?php echo $labels['type']; ?>" name="<?php echo $name ?>" id="<?php echo $name ?>">
 				<p class="description"><?php echo _e($labels['description'], 'lt'); ?></p>
 			</div>
 		<?php }
