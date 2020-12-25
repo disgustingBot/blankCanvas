@@ -17,23 +17,19 @@ w.onload=()=>{
 }
 
 
-// SLIDER:
-// TODO: mejorar modulo para poder reutilizarlo sin duplicar codigo
-var j=1,x=d.getElementsByClassName("carouselItem");
-const showDivs=n=>{
-  if(n>x.length){j=1}
-  if(n<1){j=x.length}
-  for(i=0;i<x.length;i++){x[i].classList.add("inactive")}
-  x[j-1].classList.remove("inactive");
+async function ajax2(formData, url = lt_data.ajaxurl) {
+	try{
+		let response = await fetch(url, { method: 'POST', body: formData, });
+		return await response.json();
+	} catch ( err ) { console.error(err); }
 }
-const carousel=()=>{j++;
-  for(i=0;i<x.length;i++){x[i].classList.add("inactive")}
-  if(j>x.length){j=1}
-  x[j-1].classList.remove("inactive");
-  setTimeout(carousel, 8000); // Change image every N/1000 seconds
+
+async function ajax3(formData, url = lt_data.ajaxurl) {
+	try{
+		let response = await fetch(url, { method: 'POST', body: formData, });
+		return await response.text();
+	} catch ( err ) { console.error(err); }
 }
-const plusDivs=n=>{showDivs(j+=n)}
-if(x.length>0){showDivs(j);setTimeout(carousel, 8000);}
 
 
 
@@ -42,26 +38,35 @@ if(x.length>0){showDivs(j);setTimeout(carousel, 8000);}
 
 
 
+/*
+=altClassFromSelector
 
-
-// alternates a class from a selector of choice, example:
-// <div class="someButton" onclick="altClassFromSelector('activ', '#navBar')"></div>
-const altClassFromSelector = ( clase, selector, mainClass = false )=>{
+alternates a class from a selector of choice, for example:
+<div class="someButton" onclick="altClassFromSelector('activ', '#navBar')"></div>
+*/
+const altClassFromSelector = ( clase, selector, dont_remove = false )=>{
   const x = d.querySelector(selector);
   // if there is a main class removes all other classes
-  if(mainClass){
-    x.classList.forEach( item=>{
-      // TODO: testear si anda con el nuevo condicional
-      if( item!=mainClass && item!=clase ){
+  if(dont_remove){
+    x.classList.forEach( item =>{
+      if( dont_remove.findIndex( element => element == item) == -1 && item!=clase ){
         x.classList.remove(item);
       }
     });
   }
 
   if(x.classList.contains(clase)){
-    x.classList.remove(clase)
+		if(dont_remove){
+			if( dont_remove.findIndex( element => element == clase) == -1 ){
+				x.classList.remove(clase)
+			}
+		} else {
+			x.classList.remove(clase)
+		}
   }else{
-    x.classList.add(clase)
+		if(clase){
+			x.classList.add(clase)
+		}
   }
 }
 

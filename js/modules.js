@@ -271,8 +271,8 @@ class Carousel {
 		this.title = gallery.id;
 
 		if(this.elements.length>1){
-            gallery.querySelector('#nextButton').onclick = () =>{this.plusDivs(+1)}
-            gallery.querySelector('#prevButton').onclick = () =>{this.plusDivs(-1)}
+            gallery.querySelector('.nextButton').onclick = () =>{this.plusDivs(+1)}
+            gallery.querySelector('.prevButton').onclick = () =>{this.plusDivs(-1)}
             this.showDivs(this.j);
             setTimeout(this.carousel, 8000);
         }
