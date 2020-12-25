@@ -6,7 +6,21 @@ require_once 'inc/form_handler.php';
 function lattte_setup(){
   wp_enqueue_style('style', get_stylesheet_uri(), NULL, microtime(), 'all');
 	wp_enqueue_script('modules', get_theme_file_uri('/js/modules.js'), NULL, microtime(), true);
-  wp_enqueue_script('main', get_theme_file_uri('/js/custom.js'), NULL, microtime(), true);
+
+
+
+  // register our main script but do not enqueue it yet
+  wp_register_script( 'main', get_stylesheet_directory_uri() . '/js/custom.js', array('jquery') );
+  // now the most interesting part
+  // we have to pass parameters to myloadmore.js script but we can get the parameters values only in PHP
+  // you can define variables directly in your HTML but I decided that the most proper way is wp_localize_script()
+  wp_localize_script( 'main', 'lt_data', array(
+    'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
+    'homeurl' => site_url(),
+    'front_page' => is_front_page(),
+  ) );
+
+  wp_enqueue_script( 'main' );
 }
 add_action('wp_enqueue_scripts', 'lattte_setup');
 
