@@ -13,9 +13,9 @@ function lt_form_handler() {
 	if($_POST['a00'] != ""){
 		$link = add_query_arg( array('no' => 'go',), $link );
 	} else {
-    $email='molinerozadkiel@gmail.com';
+    $email=get_option('contact_form_to');
 
-    
+
 
 
 
@@ -38,7 +38,7 @@ function lt_form_handler() {
     );
     $mail=new WP_Query();
     $mail->query($args);
-  
+
     while($mail->have_posts()){$mail->the_post();
       $subject = get_the_title();
       $message = get_the_content();
@@ -61,12 +61,12 @@ function lt_form_handler() {
 
     $result = json_decode($payload,true);
     if ($result['success']!=1) {
-    $link = add_query_arg( array( 'status' => 'bot' , ), $link );
+    	$link = add_query_arg( array( 'status' => 'bot' , ), $link );
     } else {
 
 
-      // if (wp_mail( $email , $subject , $message , $headers )) {
-      if (wp_mail( $_POST['email'] , $subject , $message , $headers )) {
+      if (wp_mail( $email , $subject , $message , $headers )) {
+      // if (wp_mail( $_POST['email'] , $subject , $message , $headers )) {
         $link = add_query_arg( array( 'status' => 'sent' , ), $link );
       } else {
         $link = add_query_arg( array( 'status' => 'error', ), $link );
@@ -130,7 +130,7 @@ function lt_ajax_mail() {
         $finalPrice = number_format($finalPrice, 2, ',', ' ') . ' ' . $currency;
         // $singlePrice = $value->singlePrice . ' ' . $currency;
 
-        
+
         $singlePrice = number_format($value->singlePrice, 2, ',', ' ') . ' ' . $currency;
 
       } else {
@@ -141,7 +141,7 @@ function lt_ajax_mail() {
       if($key & 1){
         $clase = 'budget-row-colored';
       }
-      
+
     # code...
       // $tablaDePrecios = $tablaDePrecios . $key . " - " . $value . "<br>";
       $tablaDePrecios = $tablaDePrecios . "
