@@ -132,17 +132,6 @@ function excerpt($charNumber){
           )
       );
 
-      // add_settings_field( // Option 2
-      //     'option_2', // Option ID
-      //     'Option 2', // Label
-      //     'my_textbox_callback', // !important - This is where the args go!
-      //     'general', // Page it will be displayed
-      //     'custom_settings', // Name of our section (General Settings)
-      //     array( // The $args
-      //         'option_2' // Should match Option ID
-      //     )
-      // );
-
       register_setting('general','contact_form_to', 'esc_attr');
       // register_setting('general','option_2', 'esc_attr');
   }
@@ -155,93 +144,6 @@ function excerpt($charNumber){
       $option = get_option($args[0]);
       echo '<input type="text" id="'. $args[0] .'" name="'. $args[0] .'" value="' . $option . '" />';
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  =selectBox
-
-  This function generates a selectBox object
-
-  PARAMETROS:
-  $name => el nombre visible o "label" del select
-  $options => un vector del tipo:
-  array(
-    'option_1_slug' => 'option_1_text',
-    'option_2_slug' => 'option_2_text',
-    'option_3_slug' => 'option_3_text',
-  )
-  $empty_label => el nombre visible de la opcion de vaciar el select
-  $slug => el nombre invisible del select (para CSS) se concatena a selectBox, ejemplo:
-  $slug = 'MiSelect' resulta en la clase -> 'selectBoxMiSelect'
-  */
-  function selectBox($name, $options = array(), $empty_label = 'Vaciar', $slug = false){
-  	if(!$slug){ $slug = sanitize_title($name); }
-  	?>
-  	<div class="SelectBox selectBox<?php echo $slug; ?>" tabindex="1" id="selectBox<?php echo $slug; ?>">
-  		<div class="selectBoxButton" onclick="altClassFromSelector('focus', '#selectBox<?php echo $slug; ?>')">
-  			<p class="selectBoxPlaceholder"><?php echo $name; ?></p>
-  			<p class="selectBoxCurrent" id="selectBoxCurrent<?php echo $slug; ?>"></p>
-  		</div>
-  		<div class="selectBoxList focus">
-  			<label for="nul<?php echo $slug; ?>" class="selectBoxOption" id="selectBoxOptionNul"><?= $empty_label; ?>
-  				<input
-  					class="selectBoxInput"
-  					id="nul<?php echo $slug; ?>"
-  					type="radio"
-  					name="<?php echo $slug; ?>"
-  					onclick="selectBoxControler('','#selectBox<?php echo $slug; ?>','#selectBoxCurrent<?php echo $slug; ?>')"
-  					value="0"
-  					<?php if(!isset($_GET[$slug])){ ?>
-  						checked
-  					<?php } ?>
-  				>
-  				<!-- <span class="checkmark"></span> -->
-  				<p class="colrOptP"></p>
-  			</label>
-
-
-  			<?php foreach ($options as $opt_slug => $opt_name) {
-  				$opt_name = preg_replace('/\s+/', ' ', trim($opt_name)); ?>
-
-  				<label for="<?php echo $slug; ?>_<?php echo $opt_slug; ?>" class="selectBoxOption">
-  					<input
-  						class="selectBoxInput <?php echo $opt_slug; ?>"
-  						type="radio"
-  						id="<?php echo $slug; ?>_<?php echo $opt_slug; ?>"
-  						name="<?php echo $slug; ?>"
-  						onclick="selectBoxControler('<?php echo $opt_name; ?>', '#selectBox<?php echo $slug; ?>', '#selectBoxCurrent<?php echo $slug; ?>')"
-  						value="<?php echo $opt_slug; ?>"
-  						<?php if(isset($_GET[$slug]) && $_GET[$slug] == $opt_slug){ ?>
-  							checked
-  						<?php } ?>
-  					>
-  					<!-- <span class="checkmark"></span> -->
-  					<p class="colrOptP"><?php echo $opt_name; ?></p>
-  				</label>
-
-
-  			<?php } ?>
-  		</div>
-  	</div>
-  <?php }
 
 
 
