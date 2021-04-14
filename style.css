@@ -58,6 +58,7 @@ FIN DE MAPA DE CONTENIDOS */
   que hacer facilmente diferentes versiones de la pagina */
 
   --lateral:1rem;
+  --scrollbar_width:8px;
 
   /* COLORS */
   /* Al editar colores siempre usar HEX y nunca
@@ -222,6 +223,19 @@ FIN DE MAPA DE CONTENIDOS */
 ------------------------------------------------------------------------------
 --------------------------------------------------------------------------- */
 *{box-sizing:border-box;margin:0;padding:0}
+*::-webkit-scrollbar-track{
+	border-radius:calc(var(--scrollbar_width) / 2);
+	background-color: transparent;
+}
+*::-webkit-scrollbar{
+	width: var(--scrollbar_width);
+  position:relative;
+  background-color: transparent;
+}
+*::-webkit-scrollbar-thumb{
+	border-radius:calc(var(--scrollbar_width) / 2);
+	background-color:var(--brand_color_1);
+}
 body{display:grid}
 img{object-fit:cover;width:100%;display:block}
 a{text-decoration:none}

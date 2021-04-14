@@ -112,6 +112,86 @@ function excerpt($charNumber){
 
 
 
+
+
+
+ function get_img_url_by_slug($slug){
+   return wp_get_attachment_url( get_img_id_by_slug($slug));
+ }
+
+ function get_img_id_by_slug( $slug ) {
+   $args = array(
+    'post_type' => 'attachment',
+    'name' => sanitize_title($slug),
+    'posts_per_page' => 1,
+    'post_status' => 'inherit',
+   );
+   $_header = get_posts( $args );
+   $header = $_header ? array_pop($_header) : null;
+   return $header ? $header->ID : '';
+ }
+
+  // function responsive_img($id, $class, $size){
+ function get_responsive_img($args){
+   if(!isset($args['id']) and !isset($args['slug'])) return '';
+   if(!isset($args['id'])){ $args['id'] = get_img_id_by_slug($args['slug']); }
+   $id = $args['id'];
+   // var_dump(get_img_id_by_slug($args['slug']));
+   $defaults = array(
+     'class' => 'responsive_img',
+     'sizes' => array(
+       ['572', '80'],
+       ['768', '40'],
+     ),
+     'default_size' => 30,
+     'unit' => 'vw',
+     'size_name' => 'Medium',
+     'width' => 400,
+     'height' => 300,
+     'loading' => 'lazy',
+   );
+   foreach ($defaults as $key => $value) {
+     if (!isset($args[$key])) { $args[$key] = $value; }
+   }
+
+   $img = '<img';
+   $img .= ' class="'.$args['class'].'"';
+   $img .= ' loading="'.$args['loading'].'"';
+   $img .= ' width="'.$args['width'].'"';
+   $img .= ' height="'.$args['height'].'"';
+
+   $src = wp_get_attachment_image_src( $id, $args['size_name'] )[0];
+   $img .= ' src="'.$src.'"';
+
+   $srcset = wp_get_attachment_image_srcset( $id, $args['size_name'] );
+   $img .= ' srcset="'.$srcset.'"';
+
+   // var_dump($args['sizes']);
+   $sizes = array_map(function ($value)use($args){ return "(max-width: ".$value[0]."px) ".$value[1].$args['unit'];}, $args['sizes']);
+   $sizes = implode(", ", $sizes) . ", ".$args['default_size'].$args['unit'];
+   // var_dump($sizes);
+   $img .= ' sizes="'.$sizes.'"';
+
+   $alt = get_post_meta( $id, '_wp_attachment_image_alt', true);
+   $img .= ' alt="'.$alt.'"';
+   $img .= ' />';
+
+   return $img;
+   // return "<img class='$class' loading='lazy' width='400' height='300' src='".esc_attr( $src )."' srcset='".esc_attr( $srcset )."' sizes='".esc_attr( $sizes )."' alt='".esc_attr( $alt )."' />";
+ }
+ function responsive_img($args){echo get_responsive_img($args);}
+
+
+
+
+
+
+
+
+
+
+
+
   add_action('admin_init', 'my_general_section');
   function my_general_section() {
       add_settings_section(
