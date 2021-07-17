@@ -197,26 +197,15 @@ class Obse {
 		this.id = element.id;
 		this.observe = d.querySelector(element.dataset.observe);
 		this.unobserve = element.dataset.unobserve;
-		// console.log(this.observe);
-		// console.log(this.unobserve);
-
+		
 		this.options = { root: null, threshold: 1, rootMargin: "0px 0px 0px 0px" };
-		this.observer = new IntersectionObserver(function(entries, observer){
+		this.observer = new IntersectionObserver((entries, observer)=>{
 			entries.forEach(entry => {
-				// const x = d.querySelector('#'+this.id);
 				if(entry.isIntersecting){
-					// if(!reverse){
 					element.classList.add('observed')
-					// } else {
-						// x.classList.remove('observed')
-						// }
 					if(this.unobserve=='true'){observer.unobserve(entry.target)}
 				} else {
-				// if(!reverse){
 					element.classList.remove('observed')
-					// } else {
-						// x.classList.add('observed')
-						// }
 				}
 			})
 		}, this.options);
